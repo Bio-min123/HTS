@@ -1,0 +1,136 @@
+RNA-seq Analysis Pipeline (STAR + featureCounts + edgeR + Python Visualization)
+Overview
+
+This is a fully automated RNA-seq analysis pipeline for bulk RNA-seq data.
+
+It performs:
+
+Quality control (FastQC + MultiQC)
+
+Adapter trimming (Trim Galore)
+
+Alignment to reference genome (STAR → BAM)
+
+Gene-level quantification (featureCounts)
+
+Differential expression analysis (edgeR)
+
+Visualization in Python (PCA, heatmap, volcano plots)
+
+The pipeline is Python-driven, modular, and configurable via a YAML file.
+
+Features
+
+STAR alignment with sorted BAM output
+
+featureCounts for gene-level quantification
+
+edgeR for robust differential expression analysis
+
+Python-based visualization of results
+
+Logging of all steps for reproducibility
+
+Configurable paths, threads, and reference genome
+
+Works for paired-end RNA-seq data
+
+Requirements
+System
+
+Linux / macOS
+
+Python ≥ 3.9
+
+R ≥ 4.0
+
+Tools (must be installed in PATH)
+
+FastQC
+
+MultiQC
+
+Trim Galore
+
+STAR
+
+featureCounts
+ (from Subread package)
+
+R packages
+: edgeR
+
+Python Packages
+pip install pandas matplotlib seaborn scikit-learn pyyaml
+
+Installation
+
+Clone this repository:
+
+git clone https://github.com/yourusername/rnaseq_pipeline.git
+cd rnaseq_pipeline
+
+
+Prepare reference genome for STAR:
+
+STAR --runThreadN 8 --runMode genomeGenerate --genomeDir reference/STAR_genome --genomeFastaFiles reference/genome.fa --sjdbGTFfile reference/genes.gtf
+
+Usage
+
+Configure pipeline: Edit config.yaml with paths, threads, and reference genome location.
+
+Prepare metadata: data/metadata.csv with sample names and conditions:
+
+sample,condition
+S1,control
+S2,control
+S3,treated
+S4,treated
+
+
+Run the pipeline:
+
+python run_pipeline.py
+
+Outputs
+Step	Output
+FastQC + MultiQC	results/qc/
+Trimmed reads	results/trimmed/
+STAR BAM files	results/star/<sample>/Aligned.sortedByCoord.out.bam
+Gene counts	results/counts/gene_counts.txt
+Differential expression	results/edgeR/edgeR_results.csv
+Plots	results/plots/ (PCA, heatmap, volcano)
+Logs	logs/pipeline.log
+Pipeline Steps
+
+QC: FastQC generates quality metrics per sample. MultiQC aggregates all reports.
+
+Trimming: Trim Galore removes adapters and low-quality bases.
+
+Alignment: STAR aligns reads to the reference genome and generates sorted BAMs.
+
+Quantification: featureCounts counts reads per gene from BAM files.
+
+Differential Expression: edgeR compares groups and outputs fold changes and FDR.
+
+Visualization: Python scripts generate PCA plots, heatmaps of top DE genes, and volcano plots.
+
+Customization
+
+Change number of threads in config.yaml
+
+Add/remove samples by editing metadata.csv
+
+Change reference genome or annotation in config.yaml
+
+Logging
+
+All pipeline steps are logged in logs/pipeline.log, including errors and warnings.
+
+Citation / References
+
+STAR: Dobin et al., 2013, Bioinformatics
+
+featureCounts: Liao et al., 2014, Bioinformatics
+
+edgeR: Robinson et al., 2010, Bioinformatics

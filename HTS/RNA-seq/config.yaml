@@ -1,0 +1,17 @@
+threads: 8
+
+paths:
+  fastq: data/raw_fastq
+  trimmed: results/trimmed
+  qc: results/qc
+  star: results/star
+  counts: results/counts
+  edgeR: results/edgeR
+  plots: results/plots
+
+reference:
+  genome_dir: reference/STAR_genome
+  gtf: reference/genes.gtf
+
+analysis:
+  paired_end: true
